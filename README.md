@@ -3,9 +3,3 @@
 hello world
 nihao
 master hunter world
-    sdfjskdw
-    sdfkjaksd
-    ferhgeg
-    ddfkjfks
-    sdfkjsk
-    
