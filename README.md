@@ -1,47 +1,110 @@
-# Self-Description Document: Software Bit Bang Communication Strategy
+# PJON Project Self-Report
 
-## I. Background and Purpose
+## Overview
 
-In modern embedded systems, wireless communication is an essential technology. The PJON library offers a lightweight, interrupt-free hardware abstraction layer solution for high-speed, reliable, and cross-platform point-to-point communication. The Software Bit Bang (SBB) communication strategy is a key component of the PJON library, enabling data transmission over single-wire buses without using hardware timers or interrupts.
+PJON (Protocol for JSON Over Network) is an open-source communication framework designed to connect up to 255 Arduino boards over a single or dual-wire connection, capable of data transmission speeds ranging from 1.81 kB/s to 48.000 kBd.
 
-## II. Project Overview
+This report outlines the development, deployment, and usage instructions for PJON, focusing on its core functionalities and integration into various projects.
 
-### 2.1 Software Bit Bang Technology
-The software bit bang technique involves simulating bit synchronization through programming. It uses functions like `digitalWriteFast()`, `micros()`, and `delayMicroseconds()` to precisely control timing, thereby achieving high-speed data transmission over single-wire buses.
+## Features
 
-### 2.2 PJON Library
-PJON is an open-source project aimed at providing a cross-platform point-to-point communication solution. It supports various communication strategies, including hardware bit bang, software bit bang, SPI, and I2C. The Software Bit Bang strategy is a crucial part of the PJON library, suitable for resource-constrained single-wire buses.
+- **Multi-Master Communication**: PJON supports multiple devices communicating over a single bus.
+- **High Speed Data Transfer**: Capable of transferring data at speeds up to 48.000 kBd using software bit-banging.
+- **Synchronous Acknowledgment**: Supports both synchronous and asynchronous communication modes, enhancing reliability.
+- **Flexible Error Handling**: Includes robust error handling mechanisms to manage connection losses and buffer overflows.
 
-### 2.3 Supported Platforms
-This project supports multiple Arduino platforms such as Duemilanove, Uno, Nano, Leonardo, Micro, Mega, ATtiny85, and Arduino Zero. It also supports NodeMCU and other ESP8266 platforms.
+## Deployment
 
-## III. Main Features and Characteristics
+### Hardware Requirements
+- Arduino boards (Uno, Mega, ESP8266, ESP32, etc.)
+- Breadboard and jumper wires for connecting the devices.
+- Power supply for multiple Arduino boards if needed.
 
-### 3.1 High-Speed Data Transmission
-The software bit bang strategy allows for high-speed data transmission over single-wire buses. Depending on the CPU frequency and communication mode, transfer speeds can reach up to 48,000 bps (bits/second).
+### Software Requirements
+- Arduino IDE: Version 1.8.x or later.
+- PJON Library: Download from GitHub repository or install via the Arduino Library Manager.
 
-### 3.2 Resource Efficiency
-Since it does not depend on hardware timers or interrupts, the software bit bang strategy is suitable for resource-constrained single-wire buses, such as ATtiny85.
+## Installation
 
-### 3.3 Reliability and Stability
-Through precise control of timing, the software bit bang strategy ensures high reliability and stability. Even in resource-limited environments, it can guarantee accurate and complete data transmission.
+1. **Install PJON Library**:
+   - Open your Arduino IDE.
+   - Go to `Sketch` > `Include Library` > `Manage Libraries...`.
+   - Search for "PJON" in the library manager and install it.
 
-## IV. Project Use Cases
+2. **Set Up Hardware Connections**:
+   - Connect multiple Arduino boards using a single wire for data transfer or dual wires for higher speeds.
+   - Ensure correct pin configuration as per PJON documentation.
 
-### 4.1 Resource-Constrained Environments
-The software bit bang strategy is ideal for various resource-constrained single-wire bus environments such as ATtiny85 microcontrollers. It enables high-speed data transmission while maintaining low power consumption and cost.
+## Basic Usage
 
-### 4.2 Applications Requiring High-Speed Communication
-In applications requiring high-speed communication, such as the Internet of Things (IoT), smart home systems, and industrial automation, the software bit bang strategy offers an efficient data transfer solution.
+### Example Code
 
-## V. Future Outlook
+Below is a simple example demonstrating how to use PJON in a basic communication scenario:
 
-As embedded system technology continues to evolve, the software bit bang strategy will find application in more areas. In the future, we will continue to optimize this strategy for improved performance, reliability, and support for additional platforms and communication modes.
+```cpp
+#include <PJON.h>
 
-## VI. Conclusion
+PJON<SoftwareBitBang> bus(0); // Instantiate a PJON instance with device ID 0
+void setup() {
+  bus.set_pin(13); // Set the pin connected to TX
+  bus.begin();    // Initialize PJON bus communication
+}
 
-The software bit bang strategy is a key component of the PJON library, suitable for various resource-constrained single-wire bus environments. Through precise timing control, it achieves high-speed data transmission while maintaining high reliability and stability. We hope this project will be widely used in embedded system fields, providing powerful communication solutions to developers.
+void loop() {
+  uint8_t packet[] = {'H', 'e', 'l', 'l', 'o'};
+  bus.send(255, packet, sizeof(packet)); // Send a packet to all devices on the bus
+}
+```
 
----
+### Explanation
 
-This self-description document provides a detailed overview of the software bit bang strategy within the PJON library, including its features, characteristics, and application scenarios. It aims to help you understand the significance and potential of this technology in your projects.
+1. **Include PJON Library**:
+   - `#include <PJON.h>` includes the PJON library in your project.
+
+2. **Initialize PJON Instance**:
+   - `PJON<SoftwareBitBang> bus(0);` creates a new PJON instance with device ID 0 using software bit-banging for communication.
+
+3. **Set Pin Configuration**:
+   - `bus.set_pin(13);` configures the pin connected to TX (transmit) line of the Arduino.
+
+4. **Initialize Communication**:
+   - `bus.begin();` initializes the PJON bus communication.
+
+5. **Send Data**:
+   - `bus.send(255, packet, sizeof(packet));` sends a packet containing "Hello" to all devices on the bus (ID 255 represents broadcast).
+
+## Deployment
+
+### Configuration of Multiple Devices
+
+1. **Assign Unique IDs**: Assign unique device IDs from 0 to 254 to each Arduino board.
+   ```cpp
+   PJON<SoftwareBitBang> bus(1); // For a device with ID 1
+   ```
+
+2. **Connect Devices**: Connect the devices using a single or dual-wire setup as per hardware requirements.
+
+### Handling Multiple Packets
+
+- **Buffer Management**: PJON automatically manages packet buffers, ensuring that no more than `MAX_PACKETS` packets are stored at any time.
+- **Error Handling**: Implement error handling functions to manage connection losses and buffer overflows.
+
+## Advanced Usage
+
+### Custom Headers
+
+Custom headers can be used to include additional information in the packet header:
+```cpp
+uint8_t custom_header = (SIMPLEX | SENDER_INFO_BIT);
+bus.send(255, packet, sizeof(packet), custom_header);
+```
+
+### Repeated Transmission
+
+- **Repeated Sending**: PJON allows repeated sending of packets at specified intervals using `send_repeatedly`.
+
+## Conclusion
+
+PJON is a versatile and powerful communication framework that simplifies multi-device communication in Arduino projects. By following the deployment guide and utilizing the provided example code, you can effectively implement PJON in your projects for reliable data transfer.
+
+For more advanced features and customizations, refer to the PJON documentation available on GitHub.
