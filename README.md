@@ -1,47 +1,47 @@
-# 自述书：软件位同步（Software Bit Bang）通信策略
+# Self-Description Document: Software Bit Bang Communication Strategy
 
-## 一、项目背景与目的
+## I. Background and Purpose
 
-在现代嵌入式系统中，无线通信是一种不可或缺的技术。PJON库提供了一种轻量级的、无中断的硬件抽象层解决方案，旨在实现高速、可靠和跨架构的点对点通信。软件位同步（Software Bit Bang）策略是PJON库中的关键组件之一，它允许在资源受限的单线总线上进行数据传输，无需使用硬件定时器或中断。
+In modern embedded systems, wireless communication is an essential technology. The PJON library offers a lightweight, interrupt-free hardware abstraction layer solution for high-speed, reliable, and cross-platform point-to-point communication. The Software Bit Bang (SBB) communication strategy is a key component of the PJON library, enabling data transmission over single-wire buses without using hardware timers or interrupts.
 
-## 二、项目概述
+## II. Project Overview
 
-### 2.1 软件位同步技术
-软件位同步是一种模拟位同步的方法，通过编程方式实现位的读取和发送。这种方法利用了`digitalWriteFast()`、`micros()`和`delayMicroseconds()`等函数来精确控制时间，从而实现在单线总线上进行高速数据传输。
+### 2.1 Software Bit Bang Technology
+The software bit bang technique involves simulating bit synchronization through programming. It uses functions like `digitalWriteFast()`, `micros()`, and `delayMicroseconds()` to precisely control timing, thereby achieving high-speed data transmission over single-wire buses.
 
-### 2.2 PJON库
-PJON是一个开源项目，旨在提供一种跨平台的点对点通信解决方案。它支持多种通信策略，包括硬件位同步、软件位同步、SPI和I2C等。软件位同步策略是PJON库中的一个关键组成部分，适用于资源受限的单线总线环境。
+### 2.2 PJON Library
+PJON is an open-source project aimed at providing a cross-platform point-to-point communication solution. It supports various communication strategies, including hardware bit bang, software bit bang, SPI, and I2C. The Software Bit Bang strategy is a crucial part of the PJON library, suitable for resource-constrained single-wire buses.
 
-### 2.3 支持的平台
-该项目支持多种Arduino平台，如Duemilanove、Uno、Nano、Leonardo、Micro、Mega、ATtiny85和Arduino Zero等。此外，它还支持NodeMCU和其他ESP8266平台。
+### 2.3 Supported Platforms
+This project supports multiple Arduino platforms such as Duemilanove, Uno, Nano, Leonardo, Micro, Mega, ATtiny85, and Arduino Zero. It also supports NodeMCU and other ESP8266 platforms.
 
-## 三、主要功能与特性
+## III. Main Features and Characteristics
 
-### 3.1 快速数据传输
-软件位同步策略允许在单线总线上以高速率进行数据传输。根据不同的CPU频率和通信模式，传输速度可高达48,000 bps（位/秒）。
+### 3.1 High-Speed Data Transmission
+The software bit bang strategy allows for high-speed data transmission over single-wire buses. Depending on the CPU frequency and communication mode, transfer speeds can reach up to 48,000 bps (bits/second).
 
-### 3.2 资源效率
-由于不依赖硬件定时器或中断，软件位同步策略适用于资源受限的单线总线环境，如ATtiny85等微控制器。
+### 3.2 Resource Efficiency
+Since it does not depend on hardware timers or interrupts, the software bit bang strategy is suitable for resource-constrained single-wire buses, such as ATtiny85.
 
-### 3.3 可靠性与稳定性
-通过精确控制时间，软件位同步策略能够实现高可靠性和稳定性。即使在资源有限的情况下，也能保证数据传输的准确性和完整性。
+### 3.3 Reliability and Stability
+Through precise control of timing, the software bit bang strategy ensures high reliability and stability. Even in resource-limited environments, it can guarantee accurate and complete data transmission.
 
-## 四、项目使用案例
+## IV. Project Use Cases
 
-### 4.1 资源受限环境
-软件位同步策略适用于各种资源受限的单线总线环境，如ATtiny85等微控制器。它能够实现高速数据传输，同时保持低功耗和低成本。
+### 4.1 Resource-Constrained Environments
+The software bit bang strategy is ideal for various resource-constrained single-wire bus environments such as ATtiny85 microcontrollers. It enables high-speed data transmission while maintaining low power consumption and cost.
 
-### 4.2 需要高速通信的应用
-在需要高速通信的应用中，如物联网、智能家居和工业自动化等领域，软件位同步策略能够提供高效的数据传输解决方案。
+### 4.2 Applications Requiring High-Speed Communication
+In applications requiring high-speed communication, such as the Internet of Things (IoT), smart home systems, and industrial automation, the software bit bang strategy offers an efficient data transfer solution.
 
-## 五、项目未来展望
+## V. Future Outlook
 
-随着嵌入式系统技术的不断发展，软件位同步策略将在更多领域得到应用。未来，我们将继续优化该策略，提高其性能和稳定性，并支持更多的平台和通信模式。
+As embedded system technology continues to evolve, the software bit bang strategy will find application in more areas. In the future, we will continue to optimize this strategy for improved performance, reliability, and support for additional platforms and communication modes.
 
-## 六、结语
+## VI. Conclusion
 
-软件位同步策略是PJON库中的一个关键组成部分，适用于各种资源受限的单线总线环境。通过精确控制时间，它能够实现高速数据传输，同时保持高可靠性和稳定性。我们希望该项目能够在嵌入式系统领域得到广泛应用，并为开发者提供强大的通信解决方案。
+The software bit bang strategy is a key component of the PJON library, suitable for various resource-constrained single-wire bus environments. Through precise timing control, it achieves high-speed data transmission while maintaining high reliability and stability. We hope this project will be widely used in embedded system fields, providing powerful communication solutions to developers.
 
 ---
 
-此自述书详细介绍了软件位同步策略在PJON库中的应用，包括其功能、特性、适用场景以及未来展望。希望对您有所帮助！
+This self-description document provides a detailed overview of the software bit bang strategy within the PJON library, including its features, characteristics, and application scenarios. It aims to help you understand the significance and potential of this technology in your projects.
